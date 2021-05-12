@@ -30,7 +30,11 @@ var questions = [
 
 var displayThis = function(dataEl) {
     console.log(dataEl);
-
+    var currentDisplay = document.querySelector(".display");
+    if (currentDisplay) {
+        currentDisplay.remove();
+    }
+    
     myDisplay.appendChild(dataEl);
 };
 
@@ -80,7 +84,7 @@ var playQuiz = function() {
             buttonStarQuiz.setAttribute("type", "submit");
             buttonStarQuiz.className = "btn";
             buttonStarQuiz.textContent = questions[i].option[j];
-            //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 clonenode
+            //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 cloneNode
             btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
         }
 
@@ -94,6 +98,7 @@ var playQuiz = function() {
         btnContainer.addEventListener("click", function(event) {
 
         })
+
     }
     
 }
