@@ -62,18 +62,45 @@ var intro = function(event) {
 
 window.addEventListener("load", intro);
 
-var playQuiz = function(event) {
+var playQuiz = function() {
 
     for (var i=0; i<questions.length; i++) {
         var myContainer = document.createElement("div");
+        var btnContainer = document.createElement("div");
+        
+        btnContainer.className = "btnContainer";
         myContainer.className = "display";
+        
         var heading = document.createElement("h2");
         heading.className = "h2Heading";
         heading.textContent = questions[i].quest;
 
         for (var j=0; j<questions[i].option.length; j++) {
-
+            var buttonStarQuiz = document.createElement("button");
+            buttonStarQuiz.setAttribute("type", "submit");
+            buttonStarQuiz.className = "btn";
+            buttonStarQuiz.textContent = questions[i].option[j];
+            //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 clonenode
+            btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
         }
+
+        console.log(btnContainer);
+        myContainer.appendChild(heading);
+        myContainer.appendChild(btnContainer);
+
+        console.log(myContainer);
+        displayThis(myContainer);
+
+        btnContainer.addEventListener("click", function(event) {
+
+        })
     }
     
 }
+
+myDisplay.addEventListener("click", function(event) {
+    var targetEl = event.target;
+    if (targetEl.matches(".btn")) {
+        playQuiz();
+    }
+})
