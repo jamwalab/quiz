@@ -27,3 +27,36 @@ header {
 }
 
 /*-----MAIN BODY STYLING ELEMENTS-----*/
+
+.display {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: 50px;
+    margin: auto;
+    text-align: center;
+}
+
+.h2Heading {
+    padding: 20px;
+    font-size: 36px;
+}
+
+.instruction {
+    font-size: 20px;
+}
+
+.btn {
+    padding: 10px;
+    background-color: var(--p-color);
+    color: white;
+    padding: 10px 30px;
+    font-size: 22px;
+    margin: 20px;
+    border-radius: 15px;
+    border: none;
+}
+
+.btn:hover {
+    background-color: var(--s-color);
+}
