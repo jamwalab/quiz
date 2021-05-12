@@ -1,0 +1,29 @@
+/*-----GLOBAL STYLING ELEMENTS-----*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --p-color: rgb(57, 41, 146);
+    --s-color: rgb(185, 65, 185);
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/*-----HEADER STYLING ELEMENTS-----*/
+header {
+    display: flex;
+    padding: 20px 40px;
+    font-size: 20px;
+    justify-content: space-between;
+}
+
+.highScore {
+    color: var(--s-color);
+}
+
+/*-----MAIN BODY STYLING ELEMENTS-----*/
