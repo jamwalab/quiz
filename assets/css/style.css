@@ -46,6 +46,11 @@ header {
     font-size: 20px;
 }
 
+.btnContainer {
+    display: flex;
+    flex-direction: column;
+}
+
 .btn {
     padding: 10px;
     background-color: var(--p-color);
