@@ -46,17 +46,18 @@ var pageHeader = function (text) {
     return heading;          
 }
 
-var pageButtons = function (btnArray) {
+var pageButtons = function (btnArray, phaseId) {
     var btnContainer = document.createElement("div");
     btnContainer.className = "btnContainer";
     //var buttonStarQuiz = document.createElement("button");
     //buttonStarQuiz.setAttribute("type", "submit");
     //buttonStarQuiz.className = "btn";
+    var newClass = "btn " + phaseId
      
     for (var j=0; j<btnArray.length; j++) {
         var buttonStarQuiz = document.createElement("button");
-        buttonStarQuiz.setAttribute("type", "submit");
-        buttonStarQuiz.className = "btn";
+        buttonStarQuiz.setAttribute("data-task-id", j);
+        buttonStarQuiz.className = newClass;
         buttonStarQuiz.textContent = btnArray[j];
         //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 cloneNode
         btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
@@ -85,7 +86,7 @@ var intro = function(event) {
     //buttonStarQuiz.className = "btn";
     //buttonStarQuiz.textContent = "Start Quiz";
     //btnContainer.appendChild(buttonStarQuiz);
-    var btnContainer = pageButtons(["Start Quiz"]);
+    var btnContainer = pageButtons(["Start Quiz"], "startQuiz");
 
     myContainer.appendChild(heading);
     myContainer.appendChild(instruction);
@@ -98,8 +99,9 @@ window.addEventListener("load", intro);
 
 var btnClickHandler = function(event) {
     var targetEl = event.target;
-    if (targetEl.matches(".btn")) {
+    if (targetEl.matches(".startQuiz")) {
         playQuiz();
+        console.log("I am here");
     }
 }
 
@@ -126,26 +128,15 @@ var playQuiz = function() {
             btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
         }*/
 
-        var btnContainer = pageButtons(questions[i].option);
+        var btnContainer = pageButtons(questions[i].option, "inQuiz");
 
-        console.log(btnContainer);
         myContainer.appendChild(heading);
         myContainer.appendChild(btnContainer);
 
         console.log(myContainer);
         displayThis(myContainer);
-
-        btnContainer.addEventListener("click", function(event) {
-
-        })
-
     }
     
 }
 
-myDisplay.addEventListener("click", function(event) {
-    var targetEl = event.target;
-    if (targetEl.matches(".btn")) {
-        playQuiz();
-    }
-})
+myDisplay.addEventListener("click", btnClickHandler);
