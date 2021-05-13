@@ -30,6 +30,7 @@ var questions = [
 
 var displayThis = function(dataEl) {
     console.log(dataEl);
+    
     var currentDisplay = document.querySelector(".display");
     if (currentDisplay) {
         currentDisplay.remove();
@@ -38,24 +39,53 @@ var displayThis = function(dataEl) {
     myDisplay.appendChild(dataEl);
 };
 
+var pageHeader = function (text) {
+    var heading = document.createElement("h2");
+    heading.className = "h2Heading"; 
+    heading.textContent = text;  
+    return heading;          
+}
+
+var pageButtons = function (btnArray) {
+    var btnContainer = document.createElement("div");
+    btnContainer.className = "btnContainer";
+    //var buttonStarQuiz = document.createElement("button");
+    //buttonStarQuiz.setAttribute("type", "submit");
+    //buttonStarQuiz.className = "btn";
+     
+    for (var j=0; j<btnArray.length; j++) {
+        var buttonStarQuiz = document.createElement("button");
+        buttonStarQuiz.setAttribute("type", "submit");
+        buttonStarQuiz.className = "btn";
+        buttonStarQuiz.textContent = btnArray[j];
+        //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 cloneNode
+        btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
+    }
+    return btnContainer;
+    //btnContainer.appendChild(buttonStarQuiz);
+}
+
 var intro = function(event) {
     var myContainer = document.createElement("div");
     myContainer.className = "display";
-    var heading = document.createElement("h2");
-    heading.className = "h2Heading";
-    heading.textContent = "Coding Quiz Challenge";
+    //var heading = document.createElement("h2");
+    //heading.className = "h2Heading";
+    //heading.textContent = "Coding Quiz Challenge";
+
+    var heading = pageHeader("Coding Quiz Challenge");
 
     var instruction = document.createElement("div");
     instruction.className = "instruction";
     instruction.innerHTML = "<p>Try to answer the following code-related questions within the time limit</p><p>Keep in mind that incorrect answer will penalize your score / time by ten seconds!</p>"
     
-    var btnContainer = document.createElement("div");
-    btnContainer.className = "btnContainer";
-    var buttonStarQuiz = document.createElement("button");
-    buttonStarQuiz.setAttribute("type", "submit");
-    buttonStarQuiz.className = "btn";
-    buttonStarQuiz.textContent = "Start Quiz";
-    btnContainer.appendChild(buttonStarQuiz);
+    //var btnContainer = document.createElement("div");
+    //btnContainer.className = "btnContainer";
+    //var buttonStarQuiz = document.createElement("button");
+    //buttonStarQuiz.setAttribute("type", "submit");
+    //buttonStarQuiz.className = "btn";
+    //buttonStarQuiz.textContent = "Start Quiz";
+    //btnContainer.appendChild(buttonStarQuiz);
+    var btnContainer = pageButtons(["Start Quiz"]);
 
     myContainer.appendChild(heading);
     myContainer.appendChild(instruction);
@@ -66,6 +96,13 @@ var intro = function(event) {
 
 window.addEventListener("load", intro);
 
+var btnClickHandler = function(event) {
+    var targetEl = event.target;
+    if (targetEl.matches(".btn")) {
+        playQuiz();
+    }
+}
+
 var playQuiz = function() {
 
     for (var i=0; i<questions.length; i++) {
@@ -75,18 +112,21 @@ var playQuiz = function() {
         btnContainer.className = "btnContainer";
         myContainer.className = "display";
         
-        var heading = document.createElement("h2");
-        heading.className = "h2Heading";
-        heading.textContent = questions[i].quest;
+        //var heading = document.createElement("h2");
+        //heading.className = "h2Heading";
+        //heading.textContent = questions[i].quest;
+        var heading = pageHeader(questions[i].quest);
 
-        for (var j=0; j<questions[i].option.length; j++) {
+        /*for (var j=0; j<questions[i].option.length; j++) {
             var buttonStarQuiz = document.createElement("button");
             buttonStarQuiz.setAttribute("type", "submit");
             buttonStarQuiz.className = "btn";
             buttonStarQuiz.textContent = questions[i].option[j];
             //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 cloneNode
             btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
-        }
+        }*/
+
+        var btnContainer = pageButtons(questions[i].option);
 
         console.log(btnContainer);
         myContainer.appendChild(heading);
