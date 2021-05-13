@@ -1,4 +1,6 @@
 var myDisplay = document.querySelector("#displayBox");
+var startTime = 0;
+var qCounter = 0
 
 var questions = [
     {
@@ -97,17 +99,59 @@ var intro = function(event) {
 
 window.addEventListener("load", intro);
 
+var timeLeft = function() {
+    document.querySelector("#timer").innerHTML = "Time: " + startTime;
+    startTime--;
+    console.log("out");
+}
+
 var btnClickHandler = function(event) {
     var targetEl = event.target;
     if (targetEl.matches(".startQuiz")) {
+        startTime = 75;
+        qCounter = 0;
+        var quizTimer = setInterval(timeLeft, 1000);
         playQuiz();
-        console.log("I am here");
+        console.log("I am here in ckickHandler");
     }
+    if (targetEl.matches(".inQuiz")) {
+        if (targetEl.textContent !== questions[qCounter].ans) {
+            startTime -= 10;
+        }
+        qCounter++;
+        playQuiz();
+    }
+}
+
+var answerLogic = function() {
+
 }
 
 var playQuiz = function() {
 
-    for (var i=0; i<questions.length; i++) {
+    if (qCounter <questions.length) {
+        var myContainer = document.createElement("div");
+        var btnContainer = document.createElement("div");
+
+        btnContainer.className = "btnContainer";
+        myContainer.className = "display";
+
+        var heading = pageHeader(questions[qCounter].quest);
+
+        var btnContainer = pageButtons(questions[qCounter].option, "inQuiz");
+
+        myContainer.appendChild(heading);
+        myContainer.appendChild(btnContainer);
+
+        myDisplay.addEventListener("click", btnClickHandler);
+
+        console.log(myContainer);
+        displayThis(myContainer);
+    } else {
+        console.log("Quiz end");
+    }
+
+    /*for (var i=0; i<questions.length; i++) {
         var myContainer = document.createElement("div");
         var btnContainer = document.createElement("div");
         
@@ -119,23 +163,25 @@ var playQuiz = function() {
         //heading.textContent = questions[i].quest;
         var heading = pageHeader(questions[i].quest);
 
-        /*for (var j=0; j<questions[i].option.length; j++) {
+        for (var j=0; j<questions[i].option.length; j++) {
             var buttonStarQuiz = document.createElement("button");
             buttonStarQuiz.setAttribute("type", "submit");
             buttonStarQuiz.className = "btn";
             buttonStarQuiz.textContent = questions[i].option[j];
             //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 cloneNode
             btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
-        }*/
+        }
 
         var btnContainer = pageButtons(questions[i].option, "inQuiz");
 
         myContainer.appendChild(heading);
         myContainer.appendChild(btnContainer);
 
+        myDisplay.addEventListener("click", btnClickHandler);
+
         console.log(myContainer);
         displayThis(myContainer);
-    }
+    }*/
     
 }
 
