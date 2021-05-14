@@ -31,16 +31,48 @@ var questions = [
     }
 ]
 
+//-----PAGE CONTENT DISPLAYER-----//
 var displayThis = function(dataEl) {
-    console.log(dataEl);
-    
+
     var currentDisplay = document.querySelector(".display");
+    console.log(myDisplay);
+    /*if (dataEl.querySelector(".startQuiz")) {
+        console.log("in if");
+        document.querySelector(".display").style.textAlign = "center";
+    }*/
+
     if (currentDisplay) {
         currentDisplay.remove();
     }
-    
+
     myDisplay.appendChild(dataEl);
+    if (dataEl.querySelector(".startQuiz")) {
+        console.log("in if");
+        document.querySelector(".display").style.textAlign = "center";
+        document.querySelector(".btnContainer").style.alignItems = "center";
+    }
+    console.log(dataEl);
 };
+
+//-----PAGE CONTENT CREATOR-----//
+
+var myPage = function(head, text, button, footer) {
+    var myContainer = document.createElement("div");
+    myContainer.className = "display";
+    if (head) {
+        myContainer.appendChild(head);
+    }
+    if (text) {
+        myContainer.appendChild(text);    
+    }
+    if (button) {
+        myContainer.appendChild(button);
+    }
+    if (footer) {
+        myContainer.appendChild(footer);    
+    }
+    return myContainer;
+}
 
 //-----CREATE PAGE HEADER-----//
 var pageHeader = function (text) {
@@ -68,11 +100,23 @@ var pageButtons = function (btnArray, phaseId) {
     return btnContainer;
 }
 
+//-----CREATE PAGE FOOTER-----//
+var answerFooter = function(answer) {
+    var footContainer = document.createElement("div");
+    footContainer.className = "footContainer";
+    footContainer.textContent = answer;
+    footContainer.style.display = "block";
+    setTimeout(function() { 
+        footContainer.style.display = "none"; 
+    }, 3000);
+
+    return footContainer;
+}
+
 //-----INTRO PAGE - FIRST PAGE DISPLAYED WITH START QUIZ BUTTON-----//
 var intro = function(event) {
-    var myContainer = document.createElement("div");
-    myContainer.className = "display";
-
+    startTime = 0;
+    
     var heading = pageHeader("Coding Quiz Challenge");
 
     var instruction = document.createElement("div");
@@ -83,11 +127,7 @@ var intro = function(event) {
 
     document.querySelector("#timer").innerHTML = startTime;
 
-    myContainer.appendChild(heading);
-    myContainer.appendChild(instruction);
-    myContainer.appendChild(btnContainer);
-    console.log(myContainer);
-    displayThis(myContainer);
+    displayThis(myPage(heading,instruction,btnContainer));
 };
 
 //-----LOAD INTO PAGE EVERYTIME SITE IS REFRESHED-----//
@@ -114,39 +154,46 @@ var btnClickHandler = function(event) {
     if (targetEl.matches(".inQuiz")) {
         if (targetEl.textContent !== questions[qCounter].ans) {
             startTime -= 10;
-        }
-        qCounter++;
-        playQuiz();
+            qCounter++;
+            playQuiz("Wrong");
+        } else {
+            qCounter++;
+            playQuiz("Correct");
+        }    
     }
 }
 
-var playQuiz = function() {
+var playQuiz = function(answer) {
 
     if (qCounter <questions.length) {
-        var myContainer = document.createElement("div");
-        var btnContainer = document.createElement("div");
+        //var myContainer = document.createElement("div");
+        //var btnContainer = document.createElement("div");
 
-        btnContainer.className = "btnContainer";
-        myContainer.className = "display";
-
+        //btnContainer.className = "btnContainer";
+        //myContainer.className = "display";
+        var text = "";
         var heading = pageHeader(questions[qCounter].quest);
-
         var btnContainer = pageButtons(questions[qCounter].option, "inQuiz");
+        var footer = "";
 
-        myContainer.appendChild(heading);
-        myContainer.appendChild(btnContainer);
+        if (answer) {
+            footer = answerFooter(answer);
+            console.log(answer);
+        }
 
-        myDisplay.addEventListener("click", btnClickHandler);
+        //myContainer.appendChild(heading);
+        //myContainer.appendChild(btnContainer);
+        displayThis(myPage(heading,text,btnContainer,footer));
 
-        displayThis(myContainer);
+        myDisplay.addEventListener("click", btnClickHandler);    
     } else {
-        endQuiz();
+        endQuiz(answer);
     }    
 }
 
-var endQuiz = function() {
-    var myContainer = document.createElement("div");
-    myContainer.className = "display";
+var endQuiz = function(answer) {
+    //var myContainer = document.createElement("div");
+    //myContainer.className = "display";
 
     var heading = pageHeader("All done!");
 
@@ -158,11 +205,14 @@ var endQuiz = function() {
     instruction.className = "instruction";
     instruction.innerHTML = "<p>Your final score is </p>" + myScore;
 
-    myContainer.appendChild(heading);
-    myContainer.appendChild(instruction);
-
-    console.log(quizTimer);
-    displayThis(myContainer);
+    //myContainer.appendChild(heading);
+    //myContainer.appendChild(instruction);
+    if (answer) {
+        footer = answerFooter(answer);
+        console.log(answer);
+    }
+    qCounter = 0;
+    displayThis(myPage(heading,instruction,"",footer));
 }
 
 myDisplay.addEventListener("click", btnClickHandler);
