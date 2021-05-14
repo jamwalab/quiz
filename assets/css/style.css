@@ -78,3 +78,28 @@ header {
     font-size: 24px;
     border-top: grey solid 1px;
 }
+
+.inputName {
+    font-size: 26px;
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.submitBtn {
+    margin: 0 10px;
+
+}
+
+.myName {
+    margin: 0 10px;
+    padding: 7px;
+    font-size: 26px;
+    border: 1px solid grey;    
+}
+
+.myName:focus {
+    outline: none;
+    border: 1px solid var(--s-color);
+}

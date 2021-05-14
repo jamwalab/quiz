@@ -29,22 +29,18 @@ var questions = [
         option: ["Rome","Berlin","Venice","Madrid"],
         ans: "Berlin"
     }
-]
+];
 
 //-----PAGE CONTENT DISPLAYER-----//
 var displayThis = function(dataEl) {
 
     var currentDisplay = document.querySelector(".display");
     console.log(myDisplay);
-    /*if (dataEl.querySelector(".startQuiz")) {
-        console.log("in if");
-        document.querySelector(".display").style.textAlign = "center";
-    }*/
-
+    //Removes the previous display if exist
     if (currentDisplay) {
         currentDisplay.remove();
     }
-
+    //Centers the content of intro display
     myDisplay.appendChild(dataEl);
     if (dataEl.querySelector(".startQuiz")) {
         console.log("in if");
@@ -59,6 +55,7 @@ var displayThis = function(dataEl) {
 var myPage = function(head, text, button, footer) {
     var myContainer = document.createElement("div");
     myContainer.className = "display";
+    //Appends to main display if argument received
     if (head) {
         myContainer.appendChild(head);
     }
@@ -72,7 +69,7 @@ var myPage = function(head, text, button, footer) {
         myContainer.appendChild(footer);    
     }
     return myContainer;
-}
+};
 
 //-----CREATE PAGE HEADER-----//
 var pageHeader = function (text) {
@@ -80,7 +77,7 @@ var pageHeader = function (text) {
     heading.className = "h2Heading"; 
     heading.textContent = text;  
     return heading;          
-}
+};
 
 //-----CREATE PAGE BUTTONS-----//
 var pageButtons = function (btnArray, phaseId) {
@@ -98,7 +95,7 @@ var pageButtons = function (btnArray, phaseId) {
         btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
     }
     return btnContainer;
-}
+};
 
 //-----CREATE PAGE FOOTER-----//
 var answerFooter = function(answer) {
@@ -111,7 +108,7 @@ var answerFooter = function(answer) {
     }, 3000);
 
     return footContainer;
-}
+};
 
 //-----INTRO PAGE - FIRST PAGE DISPLAYED WITH START QUIZ BUTTON-----//
 var intro = function(event) {
@@ -136,13 +133,13 @@ window.addEventListener("load", intro);
 //-----TIMER FUNCTION-----//
 var timeLeft = function() {
     startTime--;
-    document.querySelector("#timer").innerHTML = startTime;
-    
-}
+    document.querySelector("#timer").innerHTML = startTime;   
+};
 
 //-----BUTTON CLICK HANDLER-----//
 var btnClickHandler = function(event) {
     var targetEl = event.target;
+    //Click event for start quiz
     if (targetEl.matches(".startQuiz")) {
         startTime = 75;
         qCounter = 0;
@@ -151,6 +148,7 @@ var btnClickHandler = function(event) {
         playQuiz();
         console.log("I am here in ckickHandler");
     }
+    //Click event for quiz answer
     if (targetEl.matches(".inQuiz")) {
         if (targetEl.textContent !== questions[qCounter].ans) {
             startTime -= 10;
@@ -166,11 +164,6 @@ var btnClickHandler = function(event) {
 var playQuiz = function(answer) {
 
     if (qCounter <questions.length) {
-        //var myContainer = document.createElement("div");
-        //var btnContainer = document.createElement("div");
-
-        //btnContainer.className = "btnContainer";
-        //myContainer.className = "display";
         var text = "";
         var heading = pageHeader(questions[qCounter].quest);
         var btnContainer = pageButtons(questions[qCounter].option, "inQuiz");
@@ -181,8 +174,6 @@ var playQuiz = function(answer) {
             console.log(answer);
         }
 
-        //myContainer.appendChild(heading);
-        //myContainer.appendChild(btnContainer);
         displayThis(myPage(heading,text,btnContainer,footer));
 
         myDisplay.addEventListener("click", btnClickHandler);    
@@ -192,9 +183,6 @@ var playQuiz = function(answer) {
 }
 
 var endQuiz = function(answer) {
-    //var myContainer = document.createElement("div");
-    //myContainer.className = "display";
-
     var heading = pageHeader("All done!");
 
     clearInterval(quizTimer);
@@ -203,16 +191,18 @@ var endQuiz = function(answer) {
 
     var instruction = document.createElement("div");
     instruction.className = "instruction";
-    instruction.innerHTML = "<p>Your final score is - " + myScore + "</p>";
+    instruction.innerHTML = "<p>Your final score is " + myScore + ".</p>";
 
-    //myContainer.appendChild(heading);
-    //myContainer.appendChild(instruction);
+    var inputName = document.createElement("form");
+    inputName.className = "inputName";
+    inputName.innerHTML = "<p>Enter Initials: </p><input id='name' class='myName' type='text'/><button class='btn submitBtn' type='submit'>Submit</button>"
+
     if (answer) {
         footer = answerFooter(answer);
         console.log(answer);
     }
-    qCounter = 0;
-    displayThis(myPage(heading,instruction,"",footer));
+
+    displayThis(myPage(heading,instruction,inputName,footer));
 }
 
 myDisplay.addEventListener("click", btnClickHandler);
