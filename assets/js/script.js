@@ -1,6 +1,7 @@
 var myDisplay = document.querySelector("#displayBox");
 var startTime = 0;
-var qCounter = 0
+var qCounter = 0;
+var quizTimer = 0;
 
 var questions = [
     {
@@ -41,6 +42,7 @@ var displayThis = function(dataEl) {
     myDisplay.appendChild(dataEl);
 };
 
+//-----CREATE PAGE HEADER-----//
 var pageHeader = function (text) {
     var heading = document.createElement("h2");
     heading.className = "h2Heading"; 
@@ -48,12 +50,11 @@ var pageHeader = function (text) {
     return heading;          
 }
 
+//-----CREATE PAGE BUTTONS-----//
 var pageButtons = function (btnArray, phaseId) {
     var btnContainer = document.createElement("div");
     btnContainer.className = "btnContainer";
-    //var buttonStarQuiz = document.createElement("button");
-    //buttonStarQuiz.setAttribute("type", "submit");
-    //buttonStarQuiz.className = "btn";
+
     var newClass = "btn " + phaseId
      
     for (var j=0; j<btnArray.length; j++) {
@@ -65,15 +66,12 @@ var pageButtons = function (btnArray, phaseId) {
         btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
     }
     return btnContainer;
-    //btnContainer.appendChild(buttonStarQuiz);
 }
 
+//-----INTRO PAGE - FIRST PAGE DISPLAYED WITH START QUIZ BUTTON-----//
 var intro = function(event) {
     var myContainer = document.createElement("div");
     myContainer.className = "display";
-    //var heading = document.createElement("h2");
-    //heading.className = "h2Heading";
-    //heading.textContent = "Coding Quiz Challenge";
 
     var heading = pageHeader("Coding Quiz Challenge");
 
@@ -81,14 +79,9 @@ var intro = function(event) {
     instruction.className = "instruction";
     instruction.innerHTML = "<p>Try to answer the following code-related questions within the time limit</p><p>Keep in mind that incorrect answer will penalize your score / time by ten seconds!</p>"
     
-    //var btnContainer = document.createElement("div");
-    //btnContainer.className = "btnContainer";
-    //var buttonStarQuiz = document.createElement("button");
-    //buttonStarQuiz.setAttribute("type", "submit");
-    //buttonStarQuiz.className = "btn";
-    //buttonStarQuiz.textContent = "Start Quiz";
-    //btnContainer.appendChild(buttonStarQuiz);
     var btnContainer = pageButtons(["Start Quiz"], "startQuiz");
+
+    document.querySelector("#timer").innerHTML = startTime;
 
     myContainer.appendChild(heading);
     myContainer.appendChild(instruction);
@@ -97,20 +90,24 @@ var intro = function(event) {
     displayThis(myContainer);
 };
 
+//-----LOAD INTO PAGE EVERYTIME SITE IS REFRESHED-----//
 window.addEventListener("load", intro);
 
+//-----TIMER FUNCTION-----//
 var timeLeft = function() {
-    document.querySelector("#timer").innerHTML = "Time: " + startTime;
     startTime--;
-    console.log("out");
+    document.querySelector("#timer").innerHTML = startTime;
+    
 }
 
+//-----BUTTON CLICK HANDLER-----//
 var btnClickHandler = function(event) {
     var targetEl = event.target;
     if (targetEl.matches(".startQuiz")) {
         startTime = 75;
         qCounter = 0;
-        var quizTimer = setInterval(timeLeft, 1000);
+        document.querySelector("#timer").innerHTML = 75;
+        quizTimer = setInterval(timeLeft, 1000);
         playQuiz();
         console.log("I am here in ckickHandler");
     }
@@ -121,10 +118,6 @@ var btnClickHandler = function(event) {
         qCounter++;
         playQuiz();
     }
-}
-
-var answerLogic = function() {
-
 }
 
 var playQuiz = function() {
@@ -145,44 +138,31 @@ var playQuiz = function() {
 
         myDisplay.addEventListener("click", btnClickHandler);
 
-        console.log(myContainer);
         displayThis(myContainer);
     } else {
-        console.log("Quiz end");
-    }
+        endQuiz();
+    }    
+}
 
-    /*for (var i=0; i<questions.length; i++) {
-        var myContainer = document.createElement("div");
-        var btnContainer = document.createElement("div");
-        
-        btnContainer.className = "btnContainer";
-        myContainer.className = "display";
-        
-        //var heading = document.createElement("h2");
-        //heading.className = "h2Heading";
-        //heading.textContent = questions[i].quest;
-        var heading = pageHeader(questions[i].quest);
+var endQuiz = function() {
+    var myContainer = document.createElement("div");
+    myContainer.className = "display";
 
-        for (var j=0; j<questions[i].option.length; j++) {
-            var buttonStarQuiz = document.createElement("button");
-            buttonStarQuiz.setAttribute("type", "submit");
-            buttonStarQuiz.className = "btn";
-            buttonStarQuiz.textContent = questions[i].option[j];
-            //https://forum.freecodecamp.org/t/why-my-for-loop-doesnt-repeat-the-div-10-times/340676 cloneNode
-            btnContainer.appendChild(buttonStarQuiz.cloneNode(true));
-        }
+    var heading = pageHeader("All done!");
 
-        var btnContainer = pageButtons(questions[i].option, "inQuiz");
+    clearInterval(quizTimer);
+    var myScore = startTime;
+    document.querySelector("#timer").innerHTML = startTime;
 
-        myContainer.appendChild(heading);
-        myContainer.appendChild(btnContainer);
+    var instruction = document.createElement("div");
+    instruction.className = "instruction";
+    instruction.innerHTML = "<p>Your final score is </p>" + myScore;
 
-        myDisplay.addEventListener("click", btnClickHandler);
+    myContainer.appendChild(heading);
+    myContainer.appendChild(instruction);
 
-        console.log(myContainer);
-        displayThis(myContainer);
-    }*/
-    
+    console.log(quizTimer);
+    displayThis(myContainer);
 }
 
 myDisplay.addEventListener("click", btnClickHandler);
