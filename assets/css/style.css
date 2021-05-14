@@ -27,3 +27,54 @@ header {
 }
 
 /*-----MAIN BODY STYLING ELEMENTS-----*/
+
+.display {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: 50px;
+    margin: auto;
+    align-content: center;
+}
+
+.h2Heading {
+    padding: 20px;
+    font-size: 36px;
+}
+
+.instruction {
+    font-size: 26px;
+    padding: 20px;
+}
+
+.instruction span {
+    display: inline;
+}
+
+.btnContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.btn {
+    padding: 10px;
+    background-color: var(--p-color);
+    color: white;
+    padding: 10px 30px;
+    font-size: 26px;
+    margin: 30px;
+    border-radius: 15px;
+    border: none;
+}
+
+.btn:hover {
+    background-color: var(--s-color);
+}
+
+.footContainer {
+    color: grey;
+    padding: 10px 40px;
+    font-size: 24px;
+    border-top: grey solid 1px;
+}
