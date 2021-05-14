@@ -34,6 +34,7 @@ header {
     width: 70%;
     padding: 50px;
     margin: auto;
+    align-content: center;
 }
 
 .h2Heading {
@@ -44,6 +45,10 @@ header {
 .instruction {
     font-size: 26px;
     padding: 20px;
+}
+
+.instruction span {
+    display: inline;
 }
 
 .btnContainer {
@@ -65,4 +70,11 @@ header {
 
 .btn:hover {
     background-color: var(--s-color);
+}
+
+.footContainer {
+    color: grey;
+    padding: 10px 40px;
+    font-size: 24px;
+    border-top: grey solid 1px;
 }

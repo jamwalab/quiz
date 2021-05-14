@@ -203,7 +203,7 @@ var endQuiz = function(answer) {
 
     var instruction = document.createElement("div");
     instruction.className = "instruction";
-    instruction.innerHTML = "<p>Your final score is </p>" + myScore;
+    instruction.innerHTML = "<p>Your final score is - " + myScore + "</p>";
 
     //myContainer.appendChild(heading);
     //myContainer.appendChild(instruction);
