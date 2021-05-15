@@ -59,15 +59,14 @@ var displayThis = function(dataEl) {
         document.querySelector(".display").style.textAlign = "center";
         document.querySelector(".btnContainer").style.alignSelf = "center";
     }
-    //Changes flex dirextion of the buttons to row
-    //Removes the header in highscore as per the mockup
+    //Changes button direction
+    //Removes the header in highscore as per the mock-up
     if (dataEl.querySelector(".inHighScore")) {
         document.querySelector(".btnContainer").style.display = "inline";
         document.querySelector("header").style.display = "none";
         document.querySelector(".display").style.textAlign = "left";
         document.querySelector(".btnContainer").style.alignSelf = "left";
     }
-    console.log(myDisplay);
 };
 
 //-----PAGE CONTENT CREATOR - DYNAMICALLY CREATES THE PAGE BASED ON THE ARGUMENTS-----//
@@ -214,7 +213,6 @@ var btnClickHandler = function(event) {
         if (myName === "") {
             endQuiz("Initials blank, please enter your initials");
         } else {
-            console.log(highScore);
             highScore.push({
                 name : myName,
                 score : countdownTimer
@@ -222,7 +220,6 @@ var btnClickHandler = function(event) {
             storeScores();
             myHighScore("Here are the top 10 scores so far!!");
         }
-        console.log(highScore);
     }
     //Click event in highscore page
     if (targetEl.matches(".inHighScore")) {
@@ -237,7 +234,6 @@ var btnClickHandler = function(event) {
         }
     }
     if (targetEl.matches(".highScoreHead")) {
-        console.log(targetEl);
         myHighScore("Here are the top 10 scores so far!!");
     }
 }
