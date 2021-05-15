@@ -149,6 +149,12 @@ var timeLeft = function() {
     document.querySelector("#timer").innerHTML = countdownTimer;   
 };
 
+var clearScore = function() {
+    highScore = [];
+    storeScores();
+    myHighScore("All scores are deleted!!");
+}
+
 //-----BUTTON CLICK HANDLER-----//
 var btnClickHandler = function(event) {
     var targetEl = event.target;
@@ -191,8 +197,11 @@ var btnClickHandler = function(event) {
     }
 
     if (targetEl.matches(".inHighScore")) {
-        if (targetEl.matches(".inHighScore")) {
-
+        if (targetEl.getAttribute("data-task-id") === "0") {
+            location.reload();
+        }
+        if (targetEl.getAttribute("data-task-id") === "1") {
+            clearScore();
         }
     }
 }
@@ -248,6 +257,7 @@ var top10score = function() {
 
 //-----STORES SCORE IN LOCAL STORAGE-----//
 var storeScores = function () {
+    
     top10score();
     localStorage.setItem('myQuizScores', JSON.stringify(highScore));
 };
