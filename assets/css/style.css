@@ -8,6 +8,9 @@
 :root {
     --p-color: rgb(57, 41, 146);
     --s-color: rgb(185, 65, 185);
+    --foot-color: rgb(128, 128, 128, 0.5);
+    --p-color-transp: rgb(57, 41, 146, 0.2);
+    --grey-color-transp: rgb(128, 128, 128, 0.2);
 }
 
 body {
@@ -34,7 +37,6 @@ header {
     width: 70%;
     padding: 50px;
     margin: auto;
-    align-content: center;
 }
 
 .h2Heading {
@@ -45,6 +47,10 @@ header {
 .instruction {
     font-size: 26px;
     padding: 20px;
+}
+
+.instruction p {
+    padding: 5px;
 }
 
 .instruction span {
@@ -63,7 +69,7 @@ header {
     color: white;
     padding: 10px 30px;
     font-size: 26px;
-    margin: 30px;
+    margin: 20px;
     border-radius: 15px;
     border: none;
 }
@@ -73,10 +79,10 @@ header {
 }
 
 .footContainer {
-    color: grey;
+    color: var(--foot-color);
     padding: 10px 40px;
     font-size: 24px;
-    border-top: grey solid 1px;
+    border-top: var(--foot-color) solid 1px;
 }
 
 .inputName {
@@ -85,6 +91,7 @@ header {
     padding: 10px 20px;
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .submitBtn {
@@ -102,4 +109,31 @@ header {
 .myName:focus {
     outline: none;
     border: 1px solid var(--s-color);
+}
+
+.scoreList {
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+.listLine {
+    padding: 5px 20px;
+    margin: 10px 0;
+    list-style-position: inside;
+    background-color: var(--p-color-transp);
+    border-radius: 15px;
+}
+
+.listLine:nth-child(2n) {
+    background-color: var(--grey-color-transp);
+}
+
+.inHighScore {
+    display: inline-block;
+    margin: 20px;
+}
+
+.btnException {
+    display: flex;
+    flex-wrap: wrap;
 }

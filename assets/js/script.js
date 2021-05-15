@@ -1,8 +1,12 @@
 var myDisplay = document.querySelector("#displayBox");
-var startTime = 0;
+var countdownTimer = 0;
 var qCounter = 0;
 var quizTimer = 0;
+var highScore = JSON.parse(localStorage.getItem('myQuizScores')) || [];
 
+//var myScore = 0;
+console.log(highScore);
+//console.log(highScore.isArray());
 var questions = [
     {
         quest: "Capital of Italy",
@@ -35,23 +39,24 @@ var questions = [
 var displayThis = function(dataEl) {
 
     var currentDisplay = document.querySelector(".display");
-    console.log(myDisplay);
     //Removes the previous display if exist
     if (currentDisplay) {
         currentDisplay.remove();
     }
-    //Centers the content of intro display
     myDisplay.appendChild(dataEl);
+    //Centers the content of intro display
     if (dataEl.querySelector(".startQuiz")) {
-        console.log("in if");
         document.querySelector(".display").style.textAlign = "center";
         document.querySelector(".btnContainer").style.alignItems = "center";
     }
-    console.log(dataEl);
+    if (dataEl.querySelector(".inHighScore")) {
+        document.querySelector(".btnContainer").style.flexDirection = "row";
+        document.querySelector("header").style.display = "none";
+    }
+    console.log(myDisplay);
 };
 
 //-----PAGE CONTENT CREATOR-----//
-
 var myPage = function(head, text, button, footer) {
     var myContainer = document.createElement("div");
     myContainer.className = "display";
@@ -71,7 +76,7 @@ var myPage = function(head, text, button, footer) {
     return myContainer;
 };
 
-//-----CREATE PAGE HEADER-----//
+//-----CREATE PAGE HEADER SECTION-----//
 var pageHeader = function (text) {
     var heading = document.createElement("h2");
     heading.className = "h2Heading"; 
@@ -79,13 +84,13 @@ var pageHeader = function (text) {
     return heading;          
 };
 
-//-----CREATE PAGE BUTTONS-----//
+//-----CREATE PAGE BUTTONS SECTION-----//
 var pageButtons = function (btnArray, phaseId) {
     var btnContainer = document.createElement("div");
     btnContainer.className = "btnContainer";
 
     var newClass = "btn " + phaseId
-     
+    //Will dynamically create buttons based on the number of arguments received
     for (var j=0; j<btnArray.length; j++) {
         var buttonStarQuiz = document.createElement("button");
         buttonStarQuiz.setAttribute("data-task-id", j);
@@ -97,7 +102,7 @@ var pageButtons = function (btnArray, phaseId) {
     return btnContainer;
 };
 
-//-----CREATE PAGE FOOTER-----//
+//-----CREATE PAGE FOOTER SECTION-----//
 var answerFooter = function(answer) {
     var footContainer = document.createElement("div");
     footContainer.className = "footContainer";
@@ -112,7 +117,7 @@ var answerFooter = function(answer) {
 
 //-----INTRO PAGE - FIRST PAGE DISPLAYED WITH START QUIZ BUTTON-----//
 var intro = function(event) {
-    startTime = 0;
+    countdownTimer = 0;
     
     var heading = pageHeader("Coding Quiz Challenge");
 
@@ -122,18 +127,26 @@ var intro = function(event) {
     
     var btnContainer = pageButtons(["Start Quiz"], "startQuiz");
 
-    document.querySelector("#timer").innerHTML = startTime;
+    document.querySelector("#timer").innerHTML = countdownTimer;
 
     displayThis(myPage(heading,instruction,btnContainer));
 };
 
-//-----LOAD INTO PAGE EVERYTIME SITE IS REFRESHED-----//
+//-----LOAD INTRO PAGE EVERYTIME SITE IS REFRESHED-----//
 window.addEventListener("load", intro);
 
 //-----TIMER FUNCTION-----//
 var timeLeft = function() {
-    startTime--;
-    document.querySelector("#timer").innerHTML = startTime;   
+    countdownTimer--;
+    //Color the number red in last 10 seconds
+    if (countdownTimer <11) {
+        document.querySelector("#timer").style.color = "red";
+    }
+    //Call end quiz if time is up. Time is up is displayed in the footer
+    if (countdownTimer < 1) {
+        endQuiz("Time is up");
+    }
+    document.querySelector("#timer").innerHTML = countdownTimer;   
 };
 
 //-----BUTTON CLICK HANDLER-----//
@@ -141,17 +154,16 @@ var btnClickHandler = function(event) {
     var targetEl = event.target;
     //Click event for start quiz
     if (targetEl.matches(".startQuiz")) {
-        startTime = 75;
+        countdownTimer = 75;
         qCounter = 0;
         document.querySelector("#timer").innerHTML = 75;
         quizTimer = setInterval(timeLeft, 1000);
         playQuiz();
-        console.log("I am here in ckickHandler");
     }
     //Click event for quiz answer
     if (targetEl.matches(".inQuiz")) {
         if (targetEl.textContent !== questions[qCounter].ans) {
-            startTime -= 10;
+            countdownTimer -= 10;
             qCounter++;
             playQuiz("Wrong");
         } else {
@@ -159,8 +171,33 @@ var btnClickHandler = function(event) {
             playQuiz("Correct");
         }    
     }
+    //Submit for the input box
+    if (targetEl.matches(".inputName")) {
+        event.preventDefault();
+        var myName = document.querySelector("#name").value;
+        //If input is blank it will loop back to this page and display message in footer
+        if (myName === "") {
+            endQuiz("Initials blank, please enter your initials");
+        } else {
+            console.log(highScore);
+            highScore.push({
+                name : myName,
+                score : countdownTimer
+            });
+            storeScores();
+            myHighScore("Here are the top 10 scores so far!!");
+        }
+        console.log(highScore);
+    }
+
+    if (targetEl.matches(".inHighScore")) {
+        if (targetEl.matches(".inHighScore")) {
+
+        }
+    }
 }
 
+//-----PLAY QUIZ LOGIC - QUIZ PAGES ARE DEVELOPED HERE-----//
 var playQuiz = function(answer) {
 
     if (qCounter <questions.length) {
@@ -171,38 +208,78 @@ var playQuiz = function(answer) {
 
         if (answer) {
             footer = answerFooter(answer);
-            console.log(answer);
         }
 
-        displayThis(myPage(heading,text,btnContainer,footer));
-
-        myDisplay.addEventListener("click", btnClickHandler);    
+        displayThis(myPage(heading,text,btnContainer,footer));  
     } else {
         endQuiz(answer);
     }    
 }
 
+//-----END QUIZ LOGIC - END QUIZ PAGE IS DEVELOPED HERE-----//
 var endQuiz = function(answer) {
     var heading = pageHeader("All done!");
 
     clearInterval(quizTimer);
-    var myScore = startTime;
-    document.querySelector("#timer").innerHTML = startTime;
+    //myScore = countdownTimer;
+    document.querySelector("#timer").innerHTML = countdownTimer;
 
     var instruction = document.createElement("div");
     instruction.className = "instruction";
-    instruction.innerHTML = "<p>Your final score is " + myScore + ".</p>";
+    instruction.innerHTML = "<p>Your final score is " + countdownTimer + ".</p>";
 
     var inputName = document.createElement("form");
     inputName.className = "inputName";
     inputName.innerHTML = "<p>Enter Initials: </p><input id='name' class='myName' type='text'/><button class='btn submitBtn' type='submit'>Submit</button>"
 
     if (answer) {
-        footer = answerFooter(answer);
-        console.log(answer);
+        var footer = answerFooter(answer);
     }
 
-    displayThis(myPage(heading,instruction,inputName,footer));
+    displayThis(myPage(heading,instruction,inputName,footer));    
+};
+
+var top10score = function() {
+    highScore.sort(function (a,b) {
+        return b.score - a.score;
+    });
+    highScore.splice(10,100);
 }
 
+//-----STORES SCORE IN LOCAL STORAGE-----//
+var storeScores = function () {
+    top10score();
+    localStorage.setItem('myQuizScores', JSON.stringify(highScore));
+};
+
+//-----HIGHSCORE PAGE DISPLAY-----//
+var myHighScore = function (answer) {
+    //highScore = localStorage.getItem('myQuizScores', JSON.stringify('myQuizScores')) || [];
+    //highScore.sort(function (a,b) {
+    //    return b.score - a.score;
+    //});
+    top10score();
+    var heading = pageHeader("High Scores");
+    var scoreList = document.createElement("ol");
+    scoreList.className = "scoreList";
+    for (var i=0; i<highScore.length; i++) {
+        var name = highScore[i].name;
+        var score = highScore[i].score;
+        var listLine = document.createElement("li");
+        listLine.className = "listLine";
+        listLine.innerHTML = name + " - " + score;
+        scoreList.appendChild(listLine);
+    }
+    var btnContainer = pageButtons(["Go Back","Clear high scores"], "inHighScore");
+
+    if (answer) {
+        var footer = answerFooter(answer);
+    }
+
+    displayThis(myPage(heading, scoreList, btnContainer, footer));
+};
+
+//-----LISTEND TO CLICKS-----//
 myDisplay.addEventListener("click", btnClickHandler);
+//-----LISTEND TO SUBMIT REQUESTS-----//
+myDisplay.addEventListener("submit", btnClickHandler);
