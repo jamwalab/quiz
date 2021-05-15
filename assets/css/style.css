@@ -63,11 +63,8 @@ header {
 }
 
 .btnContainer {
-    /*display: flex;*/
     display: inline-grid;
     grid-auto-columns: max-content;
-    /*flex-direction: column;
-    align-items: flex-start;*/
 }
 
 .btn {
@@ -162,7 +159,7 @@ header {
         padding: 5px;
     }
     .btnContainer {
-        align-items: center;
+        align-self: center;
     }
     .btn {
         font-size: 22px;
