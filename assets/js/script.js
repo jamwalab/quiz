@@ -227,6 +227,10 @@ var btnClickHandler = function(event) {
             clearScore();
         }
     }
+    if (targetEl.matches(".highScoreHead")) {
+        console.log(targetEl);
+        myHighScore("Here are the top 10 scores so far!!");
+    }
 }
 
 //-----PLAY QUIZ LOGIC - QUIZ PAGES ARE DEVELOPED HERE-----//
@@ -311,3 +315,5 @@ var myHighScore = function (answer) {
 myDisplay.addEventListener("click", btnClickHandler);
 //-----LISTEND TO SUBMIT REQUESTS-----//
 myDisplay.addEventListener("submit", btnClickHandler);
+
+document.querySelector("header").addEventListener("click", btnClickHandler);

@@ -25,7 +25,7 @@ header {
     justify-content: space-between;
 }
 
-.highScore {
+.highScoreHead {
     color: var(--s-color);
 }
 
