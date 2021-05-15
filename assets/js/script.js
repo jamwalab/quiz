@@ -57,12 +57,14 @@ var displayThis = function(dataEl) {
     //Centers the content of intro display
     if (dataEl.querySelector(".startQuiz")) {
         document.querySelector(".display").style.textAlign = "center";
-        document.querySelector(".btnContainer").style.alignItems = "center";
+        //document.querySelector(".btnContainer").style.alignItems = "center";
+        document.querySelector(".btnContainer").style.alignSelf = "center";
     }
     //Changes flex dirextion of the buttons to row
     //Removes the header in highscore as per the mockup
     if (dataEl.querySelector(".inHighScore")) {
-        document.querySelector(".btnContainer").style.flexDirection = "row";
+        //document.querySelector(".btnContainer").style.flexDirection = "row";
+        document.querySelector(".btnContainer").style.display = "inline";
         document.querySelector("header").style.display = "none";
         document.querySelector(".display").style.textAlign = "left";
     }

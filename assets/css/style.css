@@ -63,9 +63,11 @@ header {
 }
 
 .btnContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    /*display: flex;*/
+    display: inline-grid;
+    grid-auto-columns: max-content;
+    /*flex-direction: column;
+    align-items: flex-start;*/
 }
 
 .btn {
