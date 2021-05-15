@@ -8,6 +8,9 @@
 :root {
     --p-color: rgb(57, 41, 146);
     --s-color: rgb(185, 65, 185);
+    --foot-color: rgb(128, 128, 128, 0.5);
+    --p-color-transp: rgb(57, 41, 146, 0.2);
+    --grey-color-transp: rgb(128, 128, 128, 0.2);
 }
 
 body {
@@ -17,13 +20,17 @@ body {
 /*-----HEADER STYLING ELEMENTS-----*/
 header {
     display: flex;
-    padding: 20px 40px;
-    font-size: 20px;
+    padding: 20px 50px;
+    font-size: 24px;
     justify-content: space-between;
+    text-shadow: 1px 1px 1px var(--foot-color);
+    color: var(--s-color);
 }
 
-.highScore {
-    color: var(--s-color);
+.highScoreHead:hover {
+    transition: all 0.5s;
+    transform: scale(1.05);
+    cursor:pointer;
 }
 
 /*-----MAIN BODY STYLING ELEMENTS-----*/
@@ -34,12 +41,12 @@ header {
     width: 70%;
     padding: 50px;
     margin: auto;
-    align-content: center;
 }
 
 .h2Heading {
     padding: 20px;
     font-size: 36px;
+    text-shadow: 0 0 2px var(--foot-color);
 }
 
 .instruction {
@@ -47,34 +54,145 @@ header {
     padding: 20px;
 }
 
+.instruction p {
+    padding: 5px;
+}
+
 .instruction span {
     display: inline;
 }
 
 .btnContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    display: inline-grid;
+    grid-auto-columns: max-content;
 }
 
 .btn {
+    transition: all 2s;
     padding: 10px;
     background-color: var(--p-color);
     color: white;
     padding: 10px 30px;
     font-size: 26px;
-    margin: 30px;
+    margin: 20px;
     border-radius: 15px;
     border: none;
+    box-shadow: 2px 2px 2px var(--foot-color);
 }
 
 .btn:hover {
+    transition: all 2s;
     background-color: var(--s-color);
+    cursor:pointer;
 }
 
 .footContainer {
-    color: grey;
+    color: var(--foot-color);
     padding: 10px 40px;
     font-size: 24px;
-    border-top: grey solid 1px;
+    border-top: var(--foot-color) solid 1px;
+}
+
+.inputName {
+    font-size: 26px;
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.submitBtn {
+    margin: 5px 10px;
+}
+
+.myName {
+    margin: 0 10px;
+    padding: 7px;
+    font-size: 26px;
+    border: 1px solid grey;    
+}
+
+.myName:focus {
+    transition: all 1s;
+    outline: none;
+    border: 1px solid var(--s-color);
+}
+
+.scoreList {
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+.listLine {
+    padding: 5px 20px;
+    margin: 10px 0;
+    list-style-position: inside;
+    background-color: var(--p-color-transp);
+    border-radius: 15px;
+}
+
+.listLine:nth-child(2n) {
+    background-color: var(--grey-color-transp);
+}
+
+.inHighScore {
+    margin: 20px;
+}
+
+@media screen and (max-width: 1150px) {
+    .display {
+        width: 95%;
+        padding: 50px 30px;
+        text-align: center;
+    }
+    .h2Heading {
+        padding: 10px;
+        font-size: 30px;
+    }
+    
+    .instruction {
+        font-size: 22px;
+        padding: 10px;
+    }
+    .instruction p {
+        padding: 5px;
+    }
+    .btnContainer {
+        align-self: center;
+    }
+    .btn {
+        font-size: 22px;
+        margin: 10px;
+    }
+    .footContainer {
+        padding: 10px 20px;
+        font-size: 20px;
+    }
+    .inputName {
+        font-size: 22px;
+        justify-content: center;
+    }
+    .myName {
+        margin: 5px 10px;
+        font-size: 22px; 
+    }
+}
+@media screen and (max-width: 768px) {
+    .inputName {
+        flex-wrap: wrap;
+        align-items: center;    
+    }
+    .myName {
+        flex: 100%;  
+    }
+}
+
+@media screen and (max-width: 575px) {
+    header {
+        font-size: 20px;
+    }
+    .btnContainer {
+        flex-wrap: wrap;
+    }
 }
