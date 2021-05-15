@@ -10,31 +10,38 @@ var quizTimer = 0;
 //Pull high score from storage or assigns it to blank array if local storage is blank
 var highScore = JSON.parse(localStorage.getItem('myQuizScores')) || [];
 //Question variable declaration
+//Source Q1 and 2 - https://letsfindcourse.com/technical-questions/javascript-mcq/javascript-mcq-questions
+// Rest - https://www.w3schools.com/quiztest/default.asp
 var questions = [
     {
-        quest: "Capital of Italy",
-        option: ["Rome","Milan","Venice","Madrid"],
-        ans: "Rome"
+        quest: "Which of the following is not JavaScript Data Types?",
+        option: ["Undefined","Number","Boolean","Float"],
+        ans: "Float"
     },
     {
-        quest: "Capital of France",
-        option: ["Rome","Milan","Paris","Madrid"],
-        ans: "Paris"
+        quest: "Inside which HTML element do we put the JavaScript?",
+        option: ["<script>","<head>","<meta>","<style>"],
+        ans: "<script>"
     },
     {
-        quest: "Capital of Canada",
-        option: ["Rome","Milan","Venice","Ottawa"],
-        ans: "Ottawa"
+        quest: "How to write an IF statement in JavaScript?",
+        option: ["if i===5","if i=5 then","if(i===5)","if i===5 then"],
+        ans: "if(i===5)"
     },
     {
-        quest: "Capital of Spain",
-        option: ["Rome","Milan","Venice","Madrid"],
-        ans: "Madrid"
+        quest: "How do you find the number with the highest value of x and y?",
+        option: ["ceil(x, y)","top(x, y)","Math.ceil(x, y)","Math.max(x, y)"],
+        ans: "Math.max(x, y)"
     },
     {
-        quest: "Capital of Germany",
-        option: ["Rome","Berlin","Venice","Madrid"],
-        ans: "Berlin"
+        quest: "What is the correct way to write a JavaScript array?",
+        option: ['var colors = ["red", "green", "blue"]','var colors = 1 = ("red"), 2 = ("green"), 3 = ("blue")','var colors = (1:"red", 2:"green", 3:"blue")','var colors = "red", "green", "blue"'],
+        ans: 'var colors = ["red", "green", "blue"]'
+    },
+    {
+        quest: "How does a FOR loop start?",
+        option: ["for (i <= 5; i++)","for (i = 0; i <= 5)","for (i = 0; i <= 5; i++)","for i = 1 to 5"],
+        ans: "for (i = 0; i <= 5; i++)"
     }
 ];
 //----------DOM CREATION AND MANIPULATION SECTION START----------//
@@ -57,6 +64,7 @@ var displayThis = function(dataEl) {
     if (dataEl.querySelector(".inHighScore")) {
         document.querySelector(".btnContainer").style.flexDirection = "row";
         document.querySelector("header").style.display = "none";
+        document.querySelector(".display").style.textAlign = "left";
     }
     console.log(myDisplay);
 };
@@ -130,7 +138,7 @@ var intro = function(event) {
     //Body
     var instruction = document.createElement("div");
     instruction.className = "instruction";
-    instruction.innerHTML = "<p>Try to answer the following code-related questions within the time limit</p><p>Keep in mind that incorrect answer will penalize your score / time by ten seconds!</p>"
+    instruction.innerHTML = "<p>Try to answer the following code-related questions within the time limit.</p><p>Keep in mind that incorrect answer will penalize your score / time by ten seconds!</p>"
     //Button
     var btnContainer = pageButtons(["Start Quiz"], "startQuiz");
     //Diaplays 0 to the timer
@@ -311,9 +319,9 @@ var myHighScore = function (answer) {
     displayThis(myPage(heading, scoreList, btnContainer, footer));
 };
 
-//-----LISTEND TO CLICKS-----//
+//-----LISTENING TO CLICKS IN DISPLAY-----//
 myDisplay.addEventListener("click", btnClickHandler);
-//-----LISTEND TO SUBMIT REQUESTS-----//
+//-----LISTENING TO SUBMIT REQUESTS IN DISPLAY-----//
 myDisplay.addEventListener("submit", btnClickHandler);
-
+//-----LISTENING TO SUBMIT REQUESTS IN HEADER-----//
 document.querySelector("header").addEventListener("click", btnClickHandler);
